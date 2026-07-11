@@ -1,3 +1,6 @@
+-- ==========================================
+-- Organizations Table
+-- ==========================================
 CREATE TABLE organization (
     organization_id SERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
@@ -13,6 +16,10 @@ VALUES
 ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
 
 
+-- ==========================================
+-- Service Projects Table
+-- Each project belongs to one organization (one-to-many)
+-- ==========================================
 CREATE TABLE project (
     project_id SERIAL PRIMARY KEY,
     organization_id INTEGER NOT NULL,
@@ -47,17 +54,12 @@ VALUES
 (3, 'Community Cleanup Day', 'Organizing a neighborhood-wide litter cleanup.', 'Westside', '2026-07-08');
 
 
+-- ==========================================
+-- Categories Table
+-- ==========================================
 CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE project_category (
-    project_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
-    PRIMARY KEY (project_id, category_id),
-    FOREIGN KEY (project_id) REFERENCES project (project_id),
-    FOREIGN KEY (category_id) REFERENCES category (category_id)
 );
 
 INSERT INTO category (name)
@@ -66,6 +68,20 @@ VALUES
 ('Education'),
 ('Environment'),
 ('Community Support');
+
+
+-- ==========================================
+-- Project-Category Junction Table
+-- Many-to-many relationship: a project can have multiple
+-- categories, and a category can apply to multiple projects
+-- ==========================================
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    FOREIGN KEY (project_id) REFERENCES project (project_id),
+    FOREIGN KEY (category_id) REFERENCES category (category_id)
+);
 
 INSERT INTO project_category (project_id, category_id)
 VALUES
