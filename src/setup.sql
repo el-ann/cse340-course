@@ -11,3 +11,37 @@ VALUES
 ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
 ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
 ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
+
+
+CREATE TABLE project (
+    project_id SERIAL PRIMARY KEY,
+    organization_id INTEGER NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    location VARCHAR(150) NOT NULL,
+    date DATE NOT NULL,
+    FOREIGN KEY (organization_id) REFERENCES organization (organization_id)
+);
+
+INSERT INTO project (organization_id, title, description, location, date)
+VALUES
+-- BrightFuture Builders (organization_id = 1)
+(1, 'Community Center Renovation', 'Repairing and repainting the local community center.', 'Springfield', '2026-03-10'),
+(1, 'Playground Build', 'Constructing a new playground for the neighborhood park.', 'Springfield', '2026-04-05'),
+(1, 'Road Safety Repairs', 'Fixing sidewalks and adding safety signage near schools.', 'Springfield', '2026-05-15'),
+(1, 'Housing Repair Drive', 'Repairing homes for elderly residents in need.', 'Riverside', '2026-06-20'),
+(1, 'Water System Upgrade', 'Improving local irrigation and water access.', 'Riverside', '2026-07-01'),
+
+-- GreenHarvest Growers (organization_id = 2)
+(2, 'Urban Garden Launch', 'Starting a new community garden in a vacant lot.', 'Downtown', '2026-03-12'),
+(2, 'Composting Workshop', 'Teaching residents how to compost food waste.', 'Downtown', '2026-04-08'),
+(2, 'Farmers Market Setup', 'Organizing a weekly farmers market for local growers.', 'Eastside', '2026-05-01'),
+(2, 'School Garden Program', 'Building a teaching garden at a local elementary school.', 'Eastside', '2026-06-10'),
+(2, 'Seed Distribution Day', 'Giving out free seeds and starter plants to families.', 'Downtown', '2026-07-05'),
+
+-- UnityServe Volunteers (organization_id = 3)
+(3, 'Food Bank Drive', 'Collecting and distributing food to families in need.', 'Westside', '2026-03-15'),
+(3, 'Winter Coat Collection', 'Gathering warm clothing for the winter season.', 'Westside', '2026-04-01'),
+(3, 'Senior Companionship Program', 'Pairing volunteers with elderly residents for visits.', 'Northside', '2026-05-20'),
+(3, 'Tutoring Program', 'Providing free tutoring to local students.', 'Northside', '2026-06-15'),
+(3, 'Community Cleanup Day', 'Organizing a neighborhood-wide litter cleanup.', 'Westside', '2026-07-08');
