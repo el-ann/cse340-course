@@ -45,3 +45,30 @@ VALUES
 (3, 'Senior Companionship Program', 'Pairing volunteers with elderly residents for visits.', 'Northside', '2026-05-20'),
 (3, 'Tutoring Program', 'Providing free tutoring to local students.', 'Northside', '2026-06-15'),
 (3, 'Community Cleanup Day', 'Organizing a neighborhood-wide litter cleanup.', 'Westside', '2026-07-08');
+
+
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    FOREIGN KEY (project_id) REFERENCES project (project_id),
+    FOREIGN KEY (category_id) REFERENCES category (category_id)
+);
+
+INSERT INTO category (name)
+VALUES
+('Construction'),
+('Education'),
+('Environment'),
+('Community Support');
+
+INSERT INTO project_category (project_id, category_id)
+VALUES
+(1, 1), (2, 1), (3, 1), (4, 1), (5, 1),
+(6, 3), (7, 3), (8, 3), (9, 2), (10, 3),
+(11, 4), (12, 4), (13, 4), (14, 2), (15, 4);
