@@ -1,5 +1,5 @@
 // Import any needed model functions
-import { getUpcomingProjects, getProjectDetails, getCategoriesByProjectId, createProject } from '../models/projects.js';
+import { getUpcomingProjects, getProjectDetails, getCategoriesByServiceProjectId, createProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
 
@@ -49,7 +49,7 @@ const showProjectsPage = async (req, res) => {
 const showProjectDetailsPage = async (req, res) => {
     const projectId = req.params.id;
     const project = await getProjectDetails(projectId);
-    const categories = await getCategoriesByProjectId(projectId);
+    const categories = await getCategoriesByServiceProjectId(projectId);
     const title = 'Service Project Details';
 
     res.render('project', { title, project, categories });

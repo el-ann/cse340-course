@@ -77,7 +77,7 @@ const getProjectDetails = async (id) => {
     return result.rows.length > 0 ? result.rows[0] : null;
 };
 
-const getCategoriesByProjectId = async (projectId) => {
+const getCategoriesByServiceProjectId = async (projectId) => {
     const query = `
         SELECT
             category.category_id,
@@ -115,4 +115,4 @@ const createProject = async (title, description, location, date, organizationId)
     return result.rows[0].project_id;
 };
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, getCategoriesByProjectId, createProject }
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, getCategoriesByServiceProjectId, createProject }
