@@ -6,11 +6,16 @@
         </h1>
         <ul>
             <% categories.forEach(category=> { %>
-                <li><a href="/category/<%= category.category_id %>">
+                <li>
+                    <a href="/category/<%= category.category_id %>">
                         <%= category.name %>
-                    </a></li>
+                    </a>
+                    &nbsp;(<a href="/edit-category/<%= category.category_id %>">Edit</a>)
+                </li>
                 <% }) %>
         </ul>
+
+        <p><a href="/new-category">Add a new category</a></p>
     </main>
 
     <%- include('partials/footer') %>
