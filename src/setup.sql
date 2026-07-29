@@ -88,3 +88,32 @@ VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1),
 (6, 3), (7, 3), (8, 3), (9, 2), (10, 3),
 (11, 4), (12, 4), (13, 4), (14, 2), (15, 4);
+
+
+-- ==========================================
+-- Roles Table
+-- ==========================================
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+INSERT INTO roles (role_name, role_description)
+VALUES
+('user', 'Standard user with basic access'),
+('admin', 'Administrator with full system access');
+
+
+-- ==========================================
+-- Users Table
+-- Each user has one role (one-to-many from roles to users)
+-- ==========================================
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
