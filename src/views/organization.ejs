@@ -12,18 +12,20 @@
                 <%= organizationDetails.contact_email %>
             </a></p>
 
-        <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit this organization</a></p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit this organization</a></p>
+            <% } %>
 
-        <h3>Service Projects</h3>
-        <ul>
-            <% projects.forEach(project=> { %>
-                <li>
-                    <a href="/project/<%= project.project_id %>">
-                        <%= project.title %>
-                    </a>
-                </li>
-                <% }) %>
-        </ul>
+                <h3>Service Projects</h3>
+                <ul>
+                    <% projects.forEach(project=> { %>
+                        <li>
+                            <a href="/project/<%= project.project_id %>">
+                                <%= project.title %>
+                            </a>
+                        </li>
+                        <% }) %>
+                </ul>
     </main>
 
     <%- include('partials/footer') %>

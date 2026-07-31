@@ -30,12 +30,14 @@
                 </a>&nbsp;
                 <% }) %>
         </p>
-        <p>
-            <a href="/edit-project/<%= project.project_id %>">Edit this project</a>
-        </p>
-        <p>
-            <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
-        </p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p>
+                <a href="/edit-project/<%= project.project_id %>">Edit this project</a>
+            </p>
+            <p>
+                <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
+            </p>
+            <% } %>
     </main>
 
     <%- include('partials/footer') %>

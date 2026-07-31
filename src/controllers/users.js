@@ -73,6 +73,17 @@ const showDashboard = async (req, res) => {
     res.render('dashboard', { title, name, email });
 };
 
+const requireRole = (role) => {
+    return (req, res, next) => {
+        if (req.session.user && req.session.user.role_name === role) {
+            return next();
+        }
+
+        req.flash('error', 'You do not have permission to view that page.');
+        res.redirect('/');
+    };
+};
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -80,5 +91,6 @@ export {
     processLoginForm,
     processLogout,
     requireLogin,
-    showDashboard
+    showDashboard,
+    requireRole
 };
