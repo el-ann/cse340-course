@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const saltRounds = 10;
 
@@ -80,8 +80,15 @@ const requireRole = (role) => {
         }
 
         req.flash('error', 'You do not have permission to view that page.');
-        res.redirect('/');
+        res.redirect('/dashboard');
     };
+};
+
+const showUsersPage = async (req, res) => {
+    const users = await getAllUsers();
+    const title = 'Registered Users';
+
+    res.render('users', { title, users });
 };
 
 export {
@@ -92,5 +99,6 @@ export {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showUsersPage
 };
