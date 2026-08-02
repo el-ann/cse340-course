@@ -1,6 +1,7 @@
 // Import any needed model functions
 import { getUpcomingProjects, getProjectDetails, getCategoriesByServiceProjectId, createProject, updateProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
+import { addVolunteer, removeVolunteer, isVolunteering } from '../models/volunteers.js';
 import { body, validationResult } from 'express-validator';
 
 // Number of upcoming projects to display on the main projects page
@@ -52,7 +53,12 @@ const showProjectDetailsPage = async (req, res) => {
     const categories = await getCategoriesByServiceProjectId(projectId);
     const title = 'Service Project Details';
 
-    res.render('project', { title, project, categories });
+    let isUserVolunteering = false;
+    if (req.session.user) {
+        isUserVolunteering = await isVolunteering(req.session.user.user_id, projectId);
+    }
+
+    res.render('project', { title, project, categories, isUserVolunteering });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -113,6 +119,27 @@ const processEditProjectForm = async (req, res) => {
     res.redirect(`/project/${projectId}`);
 };
 
+const processVolunteerSignup = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    await addVolunteer(userId, projectId);
+    req.flash('success', 'You have signed up to volunteer for this project!');
+    res.redirect(`/project/${projectId}`);
+};
+
+const processVolunteerRemoval = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    await removeVolunteer(userId, projectId);
+    req.flash('success', 'You have been removed as a volunteer for this project.');
+
+    // If the request came from the dashboard, redirect back there instead of the project page
+    const redirectTo = req.body.redirectTo === 'dashboard' ? '/dashboard' : `/project/${projectId}`;
+    res.redirect(redirectTo);
+};
+
 // Export any controller functions
 export {
     showProjectsPage,
@@ -121,5 +148,7 @@ export {
     processNewProjectForm,
     showEditProjectForm,
     processEditProjectForm,
+    processVolunteerSignup,
+    processVolunteerRemoval,
     projectValidation
 };
